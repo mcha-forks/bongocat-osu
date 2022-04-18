@@ -25,7 +25,9 @@ void create_config() {
         "width": 1920,
         "height": 1080,
         "horizontalPosition": 0,
-        "verticalPosition": 0
+        "verticalPosition": 0,
+        "mouseHorizontalOffset": 0,
+        "mouseVerticalOffset": 0
     },
     "decoration": {
         "leftHanded": false,

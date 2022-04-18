@@ -22,7 +22,7 @@ extern "C" {
 
 namespace input {
 int horizontal, vertical;
-int osu_x, osu_y, osu_h, osu_v;
+int osu_x, osu_y, osu_h, osu_v, cursor_h, cursor_v;
 bool is_letterbox, is_left_handed;
 
 int last_joystick_keycode = -1;
@@ -126,6 +126,8 @@ bool init() {
     osu_y = data::cfg["resolution"]["height"].asInt();
     osu_h = data::cfg["resolution"]["horizontalPosition"].asInt();
     osu_v = data::cfg["resolution"]["verticalPosition"].asInt();
+    cursor_h = data::cfg["resolution"]["mouseHorizontalOffset"].asInt();
+    cursor_v = data::cfg["resolution"]["mouseVerticalOffset"].asInt();
     is_left_handed = data::cfg["decoration"]["leftHanded"].asBool();
 
 #if defined(__unix__) || defined(__unix)
@@ -429,8 +431,8 @@ std::pair<double, double> get_xy() {
     if (xdo_get_mouse_location(xdo, &px, &py, NULL) == 0) {
 
         if (!is_letterbox) {
-            letter_x = floor(1.0 * px / osu_x) * osu_x;
-            letter_y = floor(1.0 * py / osu_y) * osu_y;
+            letter_x = floor(1.0 * (px - cursor_h) / osu_x) * osu_x;
+            letter_y = floor(1.0 * (py - cursor_v) / osu_y) * osu_y;
         }
 
         double fx = (1.0 * px - letter_x) / s_width;
